@@ -368,3 +368,212 @@ function debounce(func, wait) {
 window.addEventListener('resize', debounce(() => {
     // Recalculate slider dimensions if needed
 }, 250));
+
+/* =============================================
+   FOOTER FUNCTIONALITY
+   Phase 5: Footer + Contact Section
+   ============================================= */
+
+// ================== ENQUIRY FORM HANDLER ==================
+
+class EnquiryForm {
+    constructor() {
+        this.form = document.getElementById('enquiryForm');
+        this.formSuccess = document.getElementById('formSuccess');
+
+        // Form fields
+        this.nameInput = document.getElementById('formName');
+        this.emailInput = document.getElementById('formEmail');
+        this.phoneInput = document.getElementById('formPhone');
+        this.messageInput = document.getElementById('formMessage');
+
+        // Error elements
+        this.nameError = document.getElementById('nameError');
+        this.emailError = document.getElementById('emailError');
+        this.phoneError = document.getElementById('phoneError');
+        this.messageError = document.getElementById('messageError');
+
+        if (this.form) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Form submit handler
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // Real-time validation on blur
+        this.nameInput.addEventListener('blur', () => this.validateName());
+        this.emailInput.addEventListener('blur', () => this.validateEmail());
+        this.phoneInput.addEventListener('blur', () => this.validatePhone());
+        this.messageInput.addEventListener('blur', () => this.validateMessage());
+
+        // Clear error on input
+        this.nameInput.addEventListener('input', () => this.clearError(this.nameInput, this.nameError));
+        this.emailInput.addEventListener('input', () => this.clearError(this.emailInput, this.emailError));
+        this.phoneInput.addEventListener('input', () => this.clearError(this.phoneInput, this.phoneError));
+        this.messageInput.addEventListener('input', () => this.clearError(this.messageInput, this.messageError));
+    }
+
+    // Validate name (required, min 2 characters)
+    validateName() {
+        const value = this.nameInput.value.trim();
+        if (!value) {
+            this.showError(this.nameInput, this.nameError, 'Please enter your name');
+            return false;
+        }
+        if (value.length < 2) {
+            this.showError(this.nameInput, this.nameError, 'Name must be at least 2 characters');
+            return false;
+        }
+        this.clearError(this.nameInput, this.nameError);
+        return true;
+    }
+
+    // Validate email (required, valid format)
+    validateEmail() {
+        const value = this.emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (!value) {
+            this.showError(this.emailInput, this.emailError, 'Please enter your email');
+            return false;
+        }
+        if (!emailRegex.test(value)) {
+            this.showError(this.emailInput, this.emailError, 'Please enter a valid email address');
+            return false;
+        }
+        this.clearError(this.emailInput, this.emailError);
+        return true;
+    }
+
+    // Validate phone (optional, but if provided must be valid)
+    validatePhone() {
+        const value = this.phoneInput.value.trim();
+        // Phone is optional
+        if (!value) {
+            this.clearError(this.phoneInput, this.phoneError);
+            return true;
+        }
+        // Indian phone number pattern (10 digits, optionally with +91)
+        const phoneRegex = /^(\+91[\-\s]?)?[6-9]\d{9}$/;
+        if (!phoneRegex.test(value.replace(/\s/g, ''))) {
+            this.showError(this.phoneInput, this.phoneError, 'Please enter a valid phone number');
+            return false;
+        }
+        this.clearError(this.phoneInput, this.phoneError);
+        return true;
+    }
+
+    // Validate message (required, min 10 characters)
+    validateMessage() {
+        const value = this.messageInput.value.trim();
+        if (!value) {
+            this.showError(this.messageInput, this.messageError, 'Please enter your message');
+            return false;
+        }
+        if (value.length < 10) {
+            this.showError(this.messageInput, this.messageError, 'Message must be at least 10 characters');
+            return false;
+        }
+        this.clearError(this.messageInput, this.messageError);
+        return true;
+    }
+
+    // Show error
+    showError(input, errorElement, message) {
+        input.parentElement.classList.add('error');
+        errorElement.textContent = message;
+    }
+
+    // Clear error
+    clearError(input, errorElement) {
+        input.parentElement.classList.remove('error');
+        errorElement.textContent = '';
+    }
+
+    // Handle form submission
+    handleSubmit(e) {
+        e.preventDefault();
+
+        // Validate all fields
+        const isNameValid = this.validateName();
+        const isEmailValid = this.validateEmail();
+        const isPhoneValid = this.validatePhone();
+        const isMessageValid = this.validateMessage();
+
+        if (isNameValid && isEmailValid && isPhoneValid && isMessageValid) {
+            // Form is valid - show success message
+            this.showSuccess();
+        }
+    }
+
+    // Show success message and reset form
+    showSuccess() {
+        // Hide form fields temporarily
+        const formGroups = this.form.querySelectorAll('.form-group');
+        const submitBtn = this.form.querySelector('.form-submit');
+
+        formGroups.forEach(group => group.style.display = 'none');
+        submitBtn.style.display = 'none';
+
+        // Show success message
+        this.formSuccess.classList.add('show');
+
+        // Reset form after 3 seconds
+        setTimeout(() => {
+            this.form.reset();
+            formGroups.forEach(group => group.style.display = 'block');
+            submitBtn.style.display = 'inline-flex';
+            this.formSuccess.classList.remove('show');
+        }, 4000);
+    }
+}
+
+// ================== FOOTER SCROLL ANIMATIONS ==================
+
+class FooterAnimations {
+    constructor() {
+        this.footerColumns = document.querySelectorAll('.footer-column');
+        this.footerSection = document.querySelector('.footer-section');
+
+        if (this.footerSection) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Create intersection observer for footer columns
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add animate-in class to trigger CSS animation
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe each footer column
+        this.footerColumns.forEach(column => {
+            observer.observe(column);
+        });
+    }
+}
+
+// ================== INITIALIZE FOOTER ==================
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize enquiry form
+    const enquiryForm = new EnquiryForm();
+
+    // Initialize footer animations
+    const footerAnimations = new FooterAnimations();
+
+    console.log('Footer initialized successfully!');
+});
