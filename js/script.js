@@ -1,6 +1,121 @@
 /* =============================================
    CONSTRUCTION COMPANY WEBSITE - JAVASCRIPT
-   Phase 1: Services Slider
+   ============================================= */
+
+/* =============================================
+   HEADER FUNCTIONALITY
+   ============================================= */
+
+class Header {
+    constructor() {
+        this.header = document.getElementById('header');
+        this.nav = document.getElementById('nav');
+        this.mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        this.navLinks = document.querySelectorAll('.nav-link');
+        this.sections = document.querySelectorAll('section[id]');
+
+        this.scrollThreshold = 50;
+        this.isMenuOpen = false;
+
+        if (this.header) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.bindEvents();
+        this.handleScroll(); // Check initial scroll position
+    }
+
+    bindEvents() {
+        // Scroll event for header background
+        window.addEventListener('scroll', () => this.handleScroll());
+
+        // Mobile menu toggle
+        if (this.mobileMenuToggle) {
+            this.mobileMenuToggle.addEventListener('click', () => this.toggleMobileMenu());
+        }
+
+        // Close mobile menu when clicking a nav link
+        this.navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (this.isMenuOpen) {
+                    this.closeMobileMenu();
+                }
+            });
+        });
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (this.isMenuOpen && !this.nav.contains(e.target) && !this.mobileMenuToggle.contains(e.target)) {
+                this.closeMobileMenu();
+            }
+        });
+
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => this.updateActiveNavLink());
+    }
+
+    handleScroll() {
+        if (window.scrollY > this.scrollThreshold) {
+            this.header.classList.add('scrolled');
+        } else {
+            this.header.classList.remove('scrolled');
+        }
+    }
+
+    toggleMobileMenu() {
+        this.isMenuOpen = !this.isMenuOpen;
+
+        if (this.isMenuOpen) {
+            this.openMobileMenu();
+        } else {
+            this.closeMobileMenu();
+        }
+    }
+
+    openMobileMenu() {
+        this.isMenuOpen = true;
+        this.nav.classList.add('active');
+        this.mobileMenuToggle.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scrolling when menu is open
+    }
+
+    closeMobileMenu() {
+        this.isMenuOpen = false;
+        this.nav.classList.remove('active');
+        this.mobileMenuToggle.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scrolling
+    }
+
+    updateActiveNavLink() {
+        const scrollY = window.scrollY;
+
+        this.sections.forEach(section => {
+            const sectionTop = section.offsetTop - 100;
+            const sectionHeight = section.offsetHeight;
+            const sectionId = section.getAttribute('id');
+
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                this.navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${sectionId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }
+}
+
+// Initialize Header
+document.addEventListener('DOMContentLoaded', () => {
+    const header = new Header();
+    console.log('Header initialized successfully!');
+});
+
+/* =============================================
+   SERVICES SLIDER
    ============================================= */
 
 class ServicesSlider {

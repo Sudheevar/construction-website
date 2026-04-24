@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(copy \"C:\\\\Users\\\\KSUDHEEVARR\\\\Downloads\\\\JR_Logo-removebg-preview.png\" \"C:\\\\Users\\\\KSUDHEEVARR\\\\construction-website\\\\images\\\\jr-logo.png\")"
+    ]
+  }
+}
