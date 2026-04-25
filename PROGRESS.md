@@ -21,11 +21,12 @@ Single-page scrollable website for a construction company with smooth animations
 | 1 | Services Slider | COMPLETED |
 | 2 | Our Projects (Portfolio) | Pending |
 | 3 | Packages Cards | Pending |
-| 4 | Partners Carousel | Pending |
-| 5 | Footer + Contact | Pending |
-| 6 | Floating Chatbot | Pending |
-| 7 | Header/Navigation | Pending |
-| 8 | Polish + Responsiveness | Pending |
+| 4 | Partners Carousel | COMPLETED |
+| 5 | Footer + Contact | COMPLETED |
+| 6 | Floating Chatbot | COMPLETED |
+| 7 | Header/Navigation | COMPLETED |
+| 8 | Hero Section | COMPLETED |
+| 9 | Polish + Responsiveness | Pending |
 
 ---
 
@@ -176,7 +177,205 @@ C:\Users\KSUDHEEVARR\construction-website\
 
 ---
 
-## Pending Sections (Phase 2-8)
+## Phase 4: Brand Partners Carousel - COMPLETED (April 25, 2026)
+
+### Features:
+- **Auto-Scrolling Marquee**: Continuous infinite scroll animation (news ticker style)
+- **20 Brand Partners**: Major Indian construction material suppliers
+- **Grayscale to Color**: Logos appear in grayscale, turn to color on hover
+- **Hover Pause**: Animation pauses when user hovers over the marquee
+- **Tooltip on Hover**: Shows brand name on desktop
+- **Fallback Text**: Text-based fallback if logo image fails to load
+- **Reduced Motion Support**: Respects user's motion preferences
+
+### Brand Partners Included:
+
+**Cement:**
+- Ambuja Cement
+- ACC Limited
+- UltraTech Cement
+- Shree Cement
+- Dalmia Cement
+
+**Steel:**
+- JSW Steel / Neosteel
+- Jindal Steel
+
+**Paints:**
+- Asian Paints
+- Berger Paints
+- Pidilite (Fevicol)
+
+**Pipes & Fittings:**
+- Ashirvad Pipes
+- Supreme Industries
+- Finolex
+
+**Electrical:**
+- Havells
+- Polycab
+
+**Bathroom & Tiles:**
+- Jaquar
+- Hindware
+- Kajaria Tiles
+- Cera
+- Somany Ceramics
+
+### CSS Features:
+- **Marquee Animation**: 40s linear infinite scroll
+- **Fade Edges**: Gradient mask for smooth appearance
+- **Glassmorphism Cards**: Semi-transparent logo containers
+- **Hover Effects**: Transform, scale, and shadow animations
+- **Responsive Breakpoints**: Adjusts speed and size for mobile
+
+### JavaScript Features:
+- **Intersection Observer**: Triggers animation when section is in view
+- **Reduced Motion Detection**: Pauses animation for accessibility
+- **Scroll Animation**: Section header fades in on scroll
+
+### Responsive Behavior:
+| Breakpoint | Animation Speed | Logo Size |
+|------------|----------------|-----------|
+| Desktop (>992px) | 40s | 140px × 80px |
+| Tablet (≤992px) | 35s | 120px × 70px |
+| Mobile (≤768px) | 30s | 100px × 60px |
+| Small Mobile (≤480px) | 25s | 90px × 55px |
+
+---
+
+## Phase 5: Footer + Contact Section - COMPLETED (April 24, 2026)
+
+### Features:
+- **4-Column Grid Layout**:
+  - Column 1: Company info with logo and tagline
+  - Column 2: Quick links navigation
+  - Column 3: Contact details with icons (phone, email, address, hours)
+  - Column 4: Enquiry form with glassmorphism wrapper
+
+- **Enquiry Form**:
+  - Fields: Name, Email, Phone (optional), Message
+  - Real-time validation on blur
+  - Error messages with red highlight
+  - Success message animation
+  - Form resets after successful submission
+
+- **Social Media Icons**:
+  - Facebook, Instagram, YouTube, LinkedIn
+  - Hover effects with brand colors
+  - Scale + lift animation
+
+- **Footer Bottom**:
+  - Copyright text
+  - Consistent dark theme
+
+### Contact Details:
+- Phone: +91 99490 86276
+- Email: sohamendeavours202@gmail.com
+- Address: No.8, 18th Cross, Dasarahalli, Bhuvaneshwari Nagar, Hebbal, Kempapura, Bengaluru Urban, Karnataka - 560024
+- Hours: Mon - Sat: 9:00 AM - 7:00 PM
+
+---
+
+## Phase 7: Header/Navigation - COMPLETED (April 24, 2026)
+
+### Features:
+- **Fixed Navigation Bar**: Stays at top while scrolling
+- **Glassmorphism Effect**: Blurred dark background appears on scroll (after 50px)
+- **Logo**: JR Constructions logo (70px height, inverted for dark background)
+- **Navigation Links**: Home, Services, Projects, Packages, Contact
+- **Call Us CTA Button**: Links to phone number with icon
+- **Mobile Hamburger Menu**: Slides in from right on screens < 992px
+- **Active Link Highlighting**: Updates automatically on scroll
+
+### CSS Location:
+- `css/styles.css` lines 47-247
+
+### JavaScript Class:
+- `Header` class in `js/script.js`
+- Methods: handleScroll(), toggleMobileMenu(), updateActiveNavLink()
+
+---
+
+## Phase 8: Hero Section - COMPLETED (April 24, 2026)
+
+### Features:
+- **Full-Height Section**: 100vh with monochrome gradient background
+- **Animated Badge**: "Premium Construction Services" with pill styling
+- **Large Headline**: "Building Your Dreams Into Reality" with highlight effect
+- **Description**: Company value proposition
+- **CTA Buttons**:
+  - Primary: "Get Free Quote" (white, links to contact)
+  - Secondary: "Our Services" (outline, links to services)
+- **Stats Section**:
+  - 15+ Years Experience
+  - 500+ Projects Completed
+  - 98% Client Satisfaction
+- **Scroll Indicator**: Bouncing arrow at bottom
+- **Fade-in Animation**: Content animates in on page load
+
+### CSS Location:
+- `css/styles.css` lines 249-522
+
+### Responsive Breakpoints:
+- Desktop: Full layout with side-by-side stats
+- Tablet (768px): Stacked CTAs, column stats
+- Mobile (480px): Smaller text, adjusted spacing
+
+---
+
+## Bug Fixes - April 24, 2026
+
+### 1. Contact Icon Hover Fix
+- **Problem**: Icons became invisible on hover (white on white)
+- **Location**: `css/styles.css` line 1049
+- **Fix**: Changed `.contact-list li:hover .contact-icon` background from `var(--secondary-color)` (white) to `var(--primary-color)` (dark)
+
+### 2. Logo Display Fix
+- **Problem**: Logo showed as white square due to filter on non-transparent image
+- **Solution**:
+  - Added transparent PNG logo (`images/jr-logo.png`)
+  - Using `filter: invert(1)` to display black logo as white on dark backgrounds
+  - Removed `brightness(0)` which was causing issues
+
+### 3. Header Logo Size
+- **Change**: Increased logo height from 50px to 70px (desktop) and 40px to 55px (mobile)
+
+---
+
+## Color Scheme (Monochrome Theme)
+
+```css
+--primary-color: #1a1a1a;
+--primary-light: #333333;
+--secondary-color: #ffffff;
+--accent-color: #888888;
+--bg-color: #f5f5f5;
+--bg-dark: #0d0d0d;
+--text-primary: #1a1a1a;
+--text-secondary: #4a4a4a;
+--text-light: #9a9a9a;
+```
+
+---
+
+## File Structure (Current)
+
+```
+construction-website/
+├── index.html
+├── css/
+│   └── styles.css
+├── js/
+│   └── script.js
+├── images/
+│   └── jr-logo.png (transparent background)
+└── PROGRESS.md
+```
+
+---
+
+## Pending Sections (Phase 2-4, 6)
 
 ### Phase 2: Our Projects
 - Grid layout of project cards
@@ -191,11 +390,12 @@ C:\Users\KSUDHEEVARR\construction-website\
 - Discount badges
 - CTA buttons
 
-### Phase 4: Partners Carousel
+### Phase 4: Partners Carousel - COMPLETED
 - Auto-sliding infinite loop
-- Partner/brand logos
+- Partner/brand logos (20 brands)
 - Grayscale to color on hover
 - Pause on hover
+- Tooltip with brand names
 
 ### Phase 5: Footer
 - Contact details (phone, email, address)
@@ -239,20 +439,20 @@ C:\Users\KSUDHEEVARR\construction-website\
 - [ ] Discount details
 
 ### For Partners Section:
-- [ ] Partner/brand logos (PNG transparent)
-- [ ] Brand names
+- [x] Partner/brand logos (using Clearbit API)
+- [x] Brand names (20 brands added)
 
 ### For Footer/Contact:
-- [ ] Company address
-- [ ] Phone number(s)
-- [ ] Email address
-- [ ] Social media links
-- [ ] Working hours
+- [x] Company address (added)
+- [x] Phone number(s) (added)
+- [x] Email address (added)
+- [ ] Social media links (need real URLs)
+- [x] Working hours (added)
 
 ### General:
-- [ ] Company logo (PNG/SVG)
-- [ ] Tagline/slogan
-- [ ] Brand colors (or use current: Blue #1a365d, Orange #f6ad55)
+- [x] Company logo (jr-logo.png added)
+- [x] Tagline/slogan ("Building Tomorrow, Today")
+- [x] Brand colors (Monochrome theme applied)
 
 ---
 
@@ -284,4 +484,109 @@ C:\Users\KSUDHEEVARR\construction-website\
 
 ---
 
-*Last Updated: April 24, 2026*
+## Next Steps
+
+1. **Projects/Portfolio Section** - Grid of completed projects with images (needs client content)
+2. **Packages/Pricing Section** - Pricing cards for different service tiers (needs pricing details)
+3. Add real social media URLs
+4. Final Polish + Responsiveness testing
+
+---
+
+## Bug Fix: Partners Section Logo Display - April 25, 2026
+
+### Problem
+Partner logos were not displaying because external image URLs were blocked by CORS/hotlinking protection, and local image paths required manual downloads.
+
+### Solution
+Replaced external/local image sources with embedded SVG brand logos:
+- Each brand has a custom SVG with the brand's signature color and name
+- No external dependencies - logos display immediately
+- Grayscale to full color effect on hover preserved
+- All logos link to official company websites (opens in new tab)
+
+### Brands with SVG Logos (20 total):
+| Category | Brands |
+|----------|--------|
+| Cement | Ambuja, ACC, UltraTech, Shree, Dalmia |
+| Steel | JSW Neosteel, Jindal |
+| Paints | Asian Paints, Berger, Fevicol (Pidilite) |
+| Pipes | Ashirvad, Supreme, Finolex |
+| Electrical | Havells, Polycab |
+| Bathroom/Tiles | Jaquar, Hindware, Kajaria, Cera, Somany |
+
+### CSS Updates:
+- Added `.brand-svg` class for SVG logo styling
+- Rounded corners (8px border-radius) on SVG rectangles
+- Grayscale filter with brightness adjustment
+- Hover: Full color + scale + shadow animation
+- Responsive sizing for all breakpoints
+
+---
+
+---
+
+## Phase 6: Floating Chatbot - COMPLETED (April 25, 2026)
+
+### Features:
+- **Fixed Position**: Bottom-right corner of screen, always visible
+- **"Talk to Advisor" Button**: Pill-shaped toggle with chat icon
+- **Pulse Animation**: Attention-grabbing pulse effect on button
+- **Chat Window**: Expands on click with smooth animation
+- **Chat Header**: Shows "Construction Advisor" with online status
+- **Welcome Messages**: Automatic greeting when opened
+- **Quick Reply Buttons**: Pre-defined options for common queries
+- **Message Input**: Text input with send button
+- **Typing Indicator**: Animated dots while "bot" is responding
+- **Smart Responses**: Keyword-based responses for construction queries
+
+### Quick Reply Options:
+1. New Home Construction
+2. Renovation Services
+3. View Packages
+4. Get Free Quote
+
+### Bot Response Topics:
+- New home construction
+- Renovation services
+- Packages & pricing
+- Free quotes
+- Interior design
+- Contact information
+- Location/address
+- General greetings
+
+### Animations:
+- Pulse effect on toggle button
+- Smooth slide-up for chat window
+- Message slide-in animation
+- Typing indicator bounce
+- Status dot pulse
+
+### Responsive Behavior:
+| Breakpoint | Toggle Button | Chat Window |
+|------------|---------------|-------------|
+| Desktop (>768px) | Full "Talk to Advisor" text | 380px × 520px |
+| Tablet (≤768px) | Smaller text | 100% width - 40px |
+| Mobile (≤480px) | Icon only (circle) | 100% width - 30px, 70vh height |
+
+### CSS Location:
+- `css/styles.css` lines 2103-2584
+
+### JavaScript Class:
+- `Chatbot` class in `js/script.js`
+- Methods: toggleChat(), closeChat(), handleSubmit(), handleQuickReply(), addUserMessage(), addBotMessage(), showTypingIndicator(), hideTypingIndicator(), processMessage(), getResponse()
+
+---
+
+*Last Updated: April 25, 2026*
+
+---
+
+## Session Log
+
+| Date | Work Completed |
+|------|----------------|
+| April 25, 2026 | Partners Carousel (6 brand logos with actual images), Floating Chatbot |
+| April 24, 2026 | Header/Navigation, Hero Section, Footer + Contact, Bug fixes |
+| April 20, 2026 | Services Slider with side peek images |

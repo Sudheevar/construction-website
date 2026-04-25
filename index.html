@@ -408,6 +408,62 @@
         </div>
     </section>
 
+    <!-- Brand Partners Section -->
+    <section class="partners-section" id="partners">
+        <div class="partners-container">
+            <div class="section-header">
+                <h2 class="section-title">Our Trusted Partners</h2>
+                <div class="title-underline"></div>
+                <p class="section-subtitle">We work with India's leading brands to deliver quality construction</p>
+            </div>
+
+            <!-- Marquee Track - Scrolls Left -->
+            <div class="partners-marquee">
+                <div class="partners-track">
+                    <!-- First set of logos - Using actual brand logo images -->
+                    <a href="https://www.ambujacement.com" target="_blank" rel="noopener" class="partner-logo" data-name="Ambuja Cement">
+                        <img src="images/partners/Ambuja_Cement_Official/Ambuja_Cement_Official_idtS9nBKi2_0.png" alt="Ambuja Cement">
+                    </a>
+                    <a href="https://www.jswneosteel.com" target="_blank" rel="noopener" class="partner-logo" data-name="JSW Steel">
+                        <img src="images/partners/JSW_Steel/JSW_Steel_idpQacEAQ6_1.png" alt="JSW Steel">
+                    </a>
+                    <a href="https://www.jindalsteelpower.com" target="_blank" rel="noopener" class="partner-logo" data-name="Jindal Steel">
+                        <img src="images/partners/JINDAL_STEEL_POWER/JINDAL_STEEL_POWER_idEHIOH4y9_0.png" alt="Jindal Steel">
+                    </a>
+                    <a href="https://www.asianpaints.com" target="_blank" rel="noopener" class="partner-logo" data-name="Asian Paints">
+                        <img src="images/partners/Asian_Paints/Asian_Paints_idSqIggnOL_1.png" alt="Asian Paints">
+                    </a>
+                    <a href="https://www.havells.com" target="_blank" rel="noopener" class="partner-logo" data-name="Havells">
+                        <img src="images/partners/Havells/Havells_idCPTc-d04_0.png" alt="Havells">
+                    </a>
+                    <a href="https://www.jaquar.com" target="_blank" rel="noopener" class="partner-logo" data-name="Jaquar">
+                        <img src="images/partners/Jaquar/Jaquar_idzjZg-3Mx_0.png" alt="Jaquar">
+                    </a>
+
+                    <!-- Duplicate set for seamless infinite scroll -->
+                    <a href="https://www.ambujacement.com" target="_blank" rel="noopener" class="partner-logo" data-name="Ambuja Cement">
+                        <img src="images/partners/Ambuja_Cement_Official/Ambuja_Cement_Official_idtS9nBKi2_0.png" alt="Ambuja Cement">
+                    </a>
+                    <a href="https://www.jswneosteel.com" target="_blank" rel="noopener" class="partner-logo" data-name="JSW Steel">
+                        <img src="images/partners/JSW_Steel/JSW_Steel_idpQacEAQ6_1.png" alt="JSW Steel">
+                    </a>
+                    <a href="https://www.jindalsteelpower.com" target="_blank" rel="noopener" class="partner-logo" data-name="Jindal Steel">
+                        <img src="images/partners/JINDAL_STEEL_POWER/JINDAL_STEEL_POWER_idEHIOH4y9_0.png" alt="Jindal Steel">
+                    </a>
+                    <a href="https://www.asianpaints.com" target="_blank" rel="noopener" class="partner-logo" data-name="Asian Paints">
+                        <img src="images/partners/Asian_Paints/Asian_Paints_idSqIggnOL_1.png" alt="Asian Paints">
+                    </a>
+                    <a href="https://www.havells.com" target="_blank" rel="noopener" class="partner-logo" data-name="Havells">
+                        <img src="images/partners/Havells/Havells_idCPTc-d04_0.png" alt="Havells">
+                    </a>
+                    <a href="https://www.jaquar.com" target="_blank" rel="noopener" class="partner-logo" data-name="Jaquar">
+                        <img src="images/partners/Jaquar/Jaquar_idzjZg-3Mx_0.png" alt="Jaquar">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer Section -->
     <footer class="footer-section" id="contact">
         <div class="footer-container">
@@ -565,6 +621,91 @@
             </div>
         </div>
     </footer>
+
+    <!-- Floating Chatbot -->
+    <div class="chatbot-container" id="chatbot">
+        <!-- Chat Toggle Button -->
+        <button class="chatbot-toggle" id="chatbotToggle" aria-label="Talk to Construction Advisor">
+            <span class="chatbot-toggle-icon open">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+            </span>
+            <span class="chatbot-toggle-icon close">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </span>
+            <span class="chatbot-toggle-text">Talk to Advisor</span>
+            <span class="chatbot-pulse"></span>
+        </button>
+
+        <!-- Chat Window -->
+        <div class="chatbot-window" id="chatbotWindow">
+            <!-- Chat Header -->
+            <div class="chatbot-header">
+                <div class="chatbot-header-info">
+                    <div class="chatbot-avatar">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <div class="chatbot-header-text">
+                        <h4>Construction Advisor</h4>
+                        <span class="chatbot-status">
+                            <span class="status-dot"></span>
+                            Online
+                        </span>
+                    </div>
+                </div>
+                <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Chat Messages -->
+            <div class="chatbot-messages" id="chatbotMessages">
+                <!-- Welcome Message -->
+                <div class="chat-message bot">
+                    <div class="message-content">
+                        <p>Hello! Welcome to JR Constructions. I'm here to help you with your construction needs.</p>
+                    </div>
+                    <span class="message-time">Just now</span>
+                </div>
+                <div class="chat-message bot">
+                    <div class="message-content">
+                        <p>How can I assist you today?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Replies -->
+            <div class="chatbot-quick-replies" id="quickReplies">
+                <button class="quick-reply" data-message="I want to build a new home">New Home Construction</button>
+                <button class="quick-reply" data-message="I need renovation services">Renovation Services</button>
+                <button class="quick-reply" data-message="Tell me about your packages">View Packages</button>
+                <button class="quick-reply" data-message="I want to get a free quote">Get Free Quote</button>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chatbot-input-area">
+                <form class="chatbot-form" id="chatbotForm">
+                    <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Type your message..." autocomplete="off">
+                    <button type="submit" class="chatbot-send" aria-label="Send message">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"/>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="js/script.js"></script>
 </body>

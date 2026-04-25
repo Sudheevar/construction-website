@@ -681,6 +681,273 @@ class FooterAnimations {
     }
 }
 
+/* =============================================
+   BRAND PARTNERS CAROUSEL
+   Phase 4: Partners Carousel
+   ============================================= */
+
+class PartnersCarousel {
+    constructor() {
+        this.partnersSection = document.querySelector('.partners-section');
+        this.marquee = document.querySelector('.partners-marquee');
+        this.track = document.querySelector('.partners-track');
+        this.logos = document.querySelectorAll('.partner-logo');
+
+        if (this.partnersSection) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Add scroll animation trigger
+        this.setupScrollAnimation();
+
+        // Reduce motion for users who prefer it
+        this.handleReducedMotion();
+
+        console.log('Partners Carousel initialized successfully!');
+    }
+
+    setupScrollAnimation() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add animation class when in view
+                    this.partnersSection.classList.add('in-view');
+
+                    // Animate section header
+                    const header = this.partnersSection.querySelector('.section-header');
+                    if (header) {
+                        header.classList.add('animate-in');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(this.partnersSection);
+    }
+
+    handleReducedMotion() {
+        // Respect user's reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+        if (prefersReducedMotion.matches) {
+            this.track.style.animationPlayState = 'paused';
+        }
+
+        // Listen for changes
+        prefersReducedMotion.addEventListener('change', (e) => {
+            if (e.matches) {
+                this.track.style.animationPlayState = 'paused';
+            } else {
+                this.track.style.animationPlayState = 'running';
+            }
+        });
+    }
+}
+
+// ================== CHATBOT ==================
+
+class Chatbot {
+    constructor() {
+        this.container = document.getElementById('chatbot');
+        this.toggle = document.getElementById('chatbotToggle');
+        this.window = document.getElementById('chatbotWindow');
+        this.closeBtn = document.getElementById('chatbotClose');
+        this.messagesContainer = document.getElementById('chatbotMessages');
+        this.quickReplies = document.getElementById('quickReplies');
+        this.form = document.getElementById('chatbotForm');
+        this.input = document.getElementById('chatbotInput');
+
+        if (this.container) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Toggle chat window
+        this.toggle.addEventListener('click', () => this.toggleChat());
+        this.closeBtn.addEventListener('click', () => this.closeChat());
+
+        // Handle form submission
+        this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // Handle quick replies
+        this.quickReplies.querySelectorAll('.quick-reply').forEach(btn => {
+            btn.addEventListener('click', () => this.handleQuickReply(btn));
+        });
+
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.container.classList.contains('active')) {
+                this.closeChat();
+            }
+        });
+
+        console.log('Chatbot initialized successfully!');
+    }
+
+    toggleChat() {
+        this.container.classList.toggle('active');
+        if (this.container.classList.contains('active')) {
+            this.input.focus();
+        }
+    }
+
+    closeChat() {
+        this.container.classList.remove('active');
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        const message = this.input.value.trim();
+        if (message) {
+            this.addUserMessage(message);
+            this.input.value = '';
+            this.processMessage(message);
+        }
+    }
+
+    handleQuickReply(btn) {
+        const message = btn.dataset.message;
+        this.addUserMessage(message);
+        this.processMessage(message);
+
+        // Hide quick replies after first use
+        this.quickReplies.style.display = 'none';
+    }
+
+    addUserMessage(text) {
+        const time = this.getCurrentTime();
+        const messageHtml = `
+            <div class="chat-message user">
+                <div class="message-content">
+                    <p>${this.escapeHtml(text)}</p>
+                </div>
+                <span class="message-time">${time}</span>
+            </div>
+        `;
+        this.messagesContainer.insertAdjacentHTML('beforeend', messageHtml);
+        this.scrollToBottom();
+    }
+
+    addBotMessage(text) {
+        const time = this.getCurrentTime();
+        const messageHtml = `
+            <div class="chat-message bot">
+                <div class="message-content">
+                    <p>${text}</p>
+                </div>
+                <span class="message-time">${time}</span>
+            </div>
+        `;
+        this.messagesContainer.insertAdjacentHTML('beforeend', messageHtml);
+        this.scrollToBottom();
+    }
+
+    showTypingIndicator() {
+        const typingHtml = `
+            <div class="chat-message bot typing-message">
+                <div class="typing-indicator">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        `;
+        this.messagesContainer.insertAdjacentHTML('beforeend', typingHtml);
+        this.scrollToBottom();
+    }
+
+    hideTypingIndicator() {
+        const typing = this.messagesContainer.querySelector('.typing-message');
+        if (typing) {
+            typing.remove();
+        }
+    }
+
+    processMessage(message) {
+        // Show typing indicator
+        this.showTypingIndicator();
+
+        // Simulate response delay
+        setTimeout(() => {
+            this.hideTypingIndicator();
+            const response = this.getResponse(message);
+            this.addBotMessage(response);
+        }, 1000 + Math.random() * 1000);
+    }
+
+    getResponse(message) {
+        const lowerMessage = message.toLowerCase();
+
+        // Response mapping
+        if (lowerMessage.includes('new home') || lowerMessage.includes('build')) {
+            return "That's wonderful! We specialize in building dream homes. Our services include architectural design, structural planning, and end-to-end construction. Would you like to schedule a free consultation with our experts? You can call us at <strong>+91 99490 86276</strong> or fill out the enquiry form below.";
+        }
+
+        if (lowerMessage.includes('renovation') || lowerMessage.includes('remodel')) {
+            return "We offer comprehensive renovation services including interior redesign, structural modifications, and modern upgrades. Our team can transform your existing space into something beautiful. Would you like to discuss your renovation project?";
+        }
+
+        if (lowerMessage.includes('package') || lowerMessage.includes('pricing') || lowerMessage.includes('cost')) {
+            return "We offer flexible packages tailored to your needs and budget. Our packages include Basic, Standard, and Premium options with transparent pricing. For a detailed quote, please share your requirements or call us at <strong>+91 99490 86276</strong>.";
+        }
+
+        if (lowerMessage.includes('quote') || lowerMessage.includes('estimate')) {
+            return "I'd be happy to help you get a free quote! Please fill out the enquiry form in the Contact section below, or call us directly at <strong>+91 99490 86276</strong>. Our team will get back to you within 24 hours with a detailed estimate.";
+        }
+
+        if (lowerMessage.includes('interior') || lowerMessage.includes('design')) {
+            return "Our interior design services cover everything from space planning to furniture selection, false ceilings, modular kitchens, and complete home styling. We create spaces that reflect your personality. Would you like to see our portfolio?";
+        }
+
+        if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('call')) {
+            return "You can reach us at:<br><strong>Phone:</strong> +91 99490 86276<br><strong>Email:</strong> sohamendeavours202@gmail.com<br><strong>Hours:</strong> Mon-Sat, 9 AM - 7 PM<br>Or fill out the enquiry form below!";
+        }
+
+        if (lowerMessage.includes('location') || lowerMessage.includes('address') || lowerMessage.includes('where')) {
+            return "We're located at:<br><strong>No.8, 18th Cross, Dasarahalli, Bhuvaneshwari Nagar, Hebbal, Kempapura, Bengaluru Urban, Karnataka - 560024</strong><br>Feel free to visit us during business hours!";
+        }
+
+        if (lowerMessage.includes('hello') || lowerMessage.includes('hi') || lowerMessage.includes('hey')) {
+            return "Hello! Welcome to JR Constructions. How can I assist you today? Feel free to ask about our construction services, packages, or request a free quote!";
+        }
+
+        if (lowerMessage.includes('thank')) {
+            return "You're welcome! If you have any more questions, feel free to ask. We're here to help you build your dream space!";
+        }
+
+        // Default response
+        return "Thank you for your message! For detailed assistance, please call us at <strong>+91 99490 86276</strong> or fill out the enquiry form below. Our team will get back to you shortly.";
+    }
+
+    getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+    }
+
+    scrollToBottom() {
+        this.messagesContainer.scrollTop = this.messagesContainer.scrollHeight;
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+}
+
 // ================== INITIALIZE FOOTER ==================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -689,6 +956,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize footer animations
     const footerAnimations = new FooterAnimations();
+
+    // Initialize partners carousel
+    const partnersCarousel = new PartnersCarousel();
+
+    // Initialize chatbot
+    const chatbot = new Chatbot();
 
     console.log('Footer initialized successfully!');
 });
