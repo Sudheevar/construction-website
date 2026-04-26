@@ -948,6 +948,148 @@ class Chatbot {
     }
 }
 
+/* =============================================
+   WHY CHOOSE US SECTION ANIMATIONS
+   ============================================= */
+
+class WhyUsAnimations {
+    constructor() {
+        this.section = document.querySelector('.why-us-section');
+        this.cards = document.querySelectorAll('.why-us-card');
+
+        if (this.section) {
+            this.init();
+        }
+    }
+
+    init() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        // Observer for the section header
+        const headerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        const sectionHeader = this.section.querySelector('.section-header');
+        if (sectionHeader) {
+            headerObserver.observe(sectionHeader);
+        }
+
+        // Observer for individual cards
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, { ...observerOptions, threshold: 0.2 });
+
+        this.cards.forEach(card => {
+            cardObserver.observe(card);
+        });
+
+        console.log('Why Us Animations initialized successfully!');
+    }
+}
+
+/* =============================================
+   PROCESS SECTION ANIMATIONS
+   ============================================= */
+
+class ProcessAnimations {
+    constructor() {
+        this.section = document.querySelector('.process-section');
+        this.steps = document.querySelectorAll('.process-step');
+
+        if (this.section) {
+            this.init();
+        }
+    }
+
+    init() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        // Observer for the section header
+        const headerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        const sectionHeader = this.section.querySelector('.section-header');
+        if (sectionHeader) {
+            headerObserver.observe(sectionHeader);
+        }
+
+        // Observer for process steps with sequential animation
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, { ...observerOptions, threshold: 0.2 });
+
+        this.steps.forEach(step => {
+            stepObserver.observe(step);
+        });
+
+        console.log('Process Animations initialized successfully!');
+    }
+}
+
+/* =============================================
+   CONSTRUCTION-THEMED ANIMATIONS
+   ============================================= */
+
+// ================== BLUEPRINT GRID ANIMATION (PROCESS SECTION) ==================
+
+class BlueprintAnimation {
+    constructor() {
+        this.blueprintGrid = document.querySelector('.blueprint-grid');
+        this.processSection = document.querySelector('.process-section');
+
+        if (this.blueprintGrid && this.processSection) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Create intersection observer to trigger animation on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Add animate-in class to trigger CSS animations
+                    this.blueprintGrid.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        observer.observe(this.processSection);
+        console.log('Blueprint Animation initialized successfully!');
+    }
+}
+
 // ================== INITIALIZE FOOTER ==================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -963,5 +1105,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize chatbot
     const chatbot = new Chatbot();
 
+    // Initialize Why Us animations
+    const whyUsAnimations = new WhyUsAnimations();
+
+    // Initialize Process animations
+    const processAnimations = new ProcessAnimations();
+
+    // Initialize Construction-Themed Animations
+    const blueprintAnimation = new BlueprintAnimation();
+
     console.log('Footer initialized successfully!');
+    console.log('Construction-themed animations initialized!');
 });
