@@ -115,6 +115,83 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /* =============================================
+   STAT COUNTER ANIMATION
+   ============================================= */
+
+class StatCounter {
+    constructor() {
+        this.statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        this.duration = 2000; // Animation duration in ms
+        this.hasAnimated = false;
+
+        if (this.statNumbers.length > 0) {
+            this.init();
+        }
+    }
+
+    init() {
+        // Create intersection observer to trigger animation when in view
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !this.hasAnimated) {
+                    this.hasAnimated = true;
+                    this.animateAllCounters();
+                }
+            });
+        }, observerOptions);
+
+        // Observe the hero stats container
+        const heroStats = document.querySelector('.hero-stats');
+        if (heroStats) {
+            observer.observe(heroStats);
+        }
+    }
+
+    animateAllCounters() {
+        this.statNumbers.forEach(stat => {
+            this.animateCounter(stat);
+        });
+    }
+
+    animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-target'), 10);
+        const suffix = element.getAttribute('data-suffix') || '';
+        const startTime = performance.now();
+
+        const updateCounter = (currentTime) => {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / this.duration, 1);
+
+            // Easing function for smooth deceleration
+            const easeOutCubic = 1 - Math.pow(1 - progress, 3);
+            const currentValue = Math.floor(easeOutCubic * target);
+
+            element.textContent = currentValue + suffix;
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target + suffix;
+            }
+        };
+
+        requestAnimationFrame(updateCounter);
+    }
+}
+
+// Initialize Stat Counter
+document.addEventListener('DOMContentLoaded', () => {
+    const statCounter = new StatCounter();
+    console.log('Stat Counter initialized successfully!');
+});
+
+/* =============================================
    SERVICES SLIDER
    ============================================= */
 
