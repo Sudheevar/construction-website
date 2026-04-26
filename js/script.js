@@ -1167,6 +1167,468 @@ class BlueprintAnimation {
     }
 }
 
+/* =============================================
+   PROJECTS CAROUSEL
+   Semicircle Layout with Auto-rotation
+   ============================================= */
+
+class ProjectsCarousel {
+    constructor() {
+        this.section = document.querySelector('.projects-section');
+        this.track = document.querySelector('.semicircle-track');
+        this.cards = document.querySelectorAll('.project-card');
+        this.prevBtn = document.querySelector('.projects-section .nav-prev');
+        this.nextBtn = document.querySelector('.projects-section .nav-next');
+        this.dots = document.querySelectorAll('.projects-section .nav-dots .dot');
+
+        // State
+        this.currentCenter = 2; // Index of center card (position 2)
+        this.totalProjects = this.cards.length;
+        this.isAnimating = false;
+        this.autoPlayInterval = null;
+        this.autoPlayDelay = 4000; // 4 seconds
+
+        if (this.track && this.cards.length > 0) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.setupPositions();
+        this.setupNavigation();
+        this.setupCardClicks();
+        this.setupKeyboardNav();
+        this.startAutoPlay();
+        this.setupScrollTrigger();
+
+        console.log('Projects Carousel initialized successfully!');
+    }
+
+    setupPositions() {
+        // Assign initial data-position attributes
+        this.cards.forEach((card, index) => {
+            const position = index - this.currentCenter + 2;
+            card.setAttribute('data-position', position);
+        });
+        this.updateDots();
+    }
+
+    setupNavigation() {
+        // Arrow buttons
+        if (this.prevBtn) {
+            this.prevBtn.addEventListener('click', () => {
+                this.rotate('prev');
+                this.resetAutoPlay();
+            });
+        }
+
+        if (this.nextBtn) {
+            this.nextBtn.addEventListener('click', () => {
+                this.rotate('next');
+                this.resetAutoPlay();
+            });
+        }
+
+        // Dot navigation
+        this.dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                this.goToProject(index);
+                this.resetAutoPlay();
+            });
+        });
+
+        // Pause on hover
+        if (this.track) {
+            this.track.addEventListener('mouseenter', () => this.pauseAutoPlay());
+            this.track.addEventListener('mouseleave', () => this.startAutoPlay());
+        }
+
+        // Pause when tab is not visible
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                this.pauseAutoPlay();
+            } else {
+                this.startAutoPlay();
+            }
+        });
+    }
+
+    setupCardClicks() {
+        this.cards.forEach(card => {
+            card.addEventListener('click', (e) => {
+                // Don't do anything if already expanded
+                if (card.classList.contains('expanded')) return;
+
+                const position = parseInt(card.getAttribute('data-position'));
+
+                // If it's the center card, expand it
+                if (position === 2) {
+                    this.expandCard(card);
+                } else if (position >= 0 && position <= 4) {
+                    // Rotate to make this card center
+                    const rotations = 2 - position;
+                    if (rotations !== 0) {
+                        this.rotateMultiple(rotations);
+                        this.resetAutoPlay();
+                    }
+                }
+            });
+        });
+
+        // Close buttons
+        document.querySelectorAll('.close-expanded').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.closeExpanded();
+            });
+        });
+
+        // Click outside to close
+        document.addEventListener('click', (e) => {
+            if (this.section && this.section.classList.contains('has-expanded')) {
+                const expandedCard = document.querySelector('.project-card.expanded');
+                if (expandedCard && !expandedCard.contains(e.target)) {
+                    this.closeExpanded();
+                }
+            }
+        });
+
+        // Escape key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.section && this.section.classList.contains('has-expanded')) {
+                this.closeExpanded();
+            }
+        });
+    }
+
+    setupKeyboardNav() {
+        document.addEventListener('keydown', (e) => {
+            // Only respond if projects section is in view and no card is expanded
+            if (!this.isInViewport() || (this.section && this.section.classList.contains('has-expanded'))) {
+                return;
+            }
+
+            if (e.key === 'ArrowLeft') {
+                this.rotate('prev');
+                this.resetAutoPlay();
+            } else if (e.key === 'ArrowRight') {
+                this.rotate('next');
+                this.resetAutoPlay();
+            }
+        });
+    }
+
+    setupScrollTrigger() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.section.classList.add('in-view');
+                    // Animate section header
+                    const header = this.section.querySelector('.section-header');
+                    if (header) {
+                        header.classList.add('animate-in');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        if (this.section) {
+            observer.observe(this.section);
+        }
+    }
+
+    isInViewport() {
+        if (!this.section) return false;
+        const rect = this.section.getBoundingClientRect();
+        return (
+            rect.top < window.innerHeight &&
+            rect.bottom > 0
+        );
+    }
+
+    rotate(direction) {
+        if (this.isAnimating) return;
+        this.isAnimating = true;
+
+        // Update positions for all cards
+        this.cards.forEach(card => {
+            let pos = parseInt(card.getAttribute('data-position'));
+
+            if (direction === 'next') {
+                pos = pos - 1;
+            } else {
+                pos = pos + 1;
+            }
+
+            // Wrap around for seamless rotation
+            if (pos < -1) {
+                pos = this.totalProjects - 1;
+            } else if (pos >= this.totalProjects) {
+                pos = -1;
+            }
+
+            card.setAttribute('data-position', pos);
+        });
+
+        // Update current center index
+        if (direction === 'next') {
+            this.currentCenter = (this.currentCenter + 1) % this.totalProjects;
+        } else {
+            this.currentCenter = (this.currentCenter - 1 + this.totalProjects) % this.totalProjects;
+        }
+
+        this.updateDots();
+
+        // Reset animation lock after transition
+        setTimeout(() => {
+            this.isAnimating = false;
+        }, 600);
+    }
+
+    rotateMultiple(count) {
+        if (count === 0) return;
+
+        const direction = count > 0 ? 'prev' : 'next';
+        const rotations = Math.abs(count);
+
+        // Rotate one at a time with delay
+        let completed = 0;
+        const rotateStep = () => {
+            this.rotate(direction);
+            completed++;
+            if (completed < rotations) {
+                setTimeout(rotateStep, 150);
+            }
+        };
+
+        rotateStep();
+    }
+
+    goToProject(index) {
+        if (this.isAnimating || index === this.currentCenter) return;
+
+        // Calculate shortest path
+        let diff = index - this.currentCenter;
+        const halfTotal = this.totalProjects / 2;
+
+        // Adjust for wrap around
+        if (Math.abs(diff) > halfTotal) {
+            if (diff > 0) {
+                diff = diff - this.totalProjects;
+            } else {
+                diff = diff + this.totalProjects;
+            }
+        }
+
+        this.rotateMultiple(-diff);
+    }
+
+    updateDots() {
+        this.dots.forEach((dot, index) => {
+            if (index === this.currentCenter) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    }
+
+    expandCard(card) {
+        this.pauseAutoPlay();
+        card.classList.add('expanded');
+        this.section.classList.add('has-expanded');
+        document.body.style.overflow = 'hidden';
+
+        // Initialize gallery for this card
+        this.initGallery(card);
+    }
+
+    initGallery(card) {
+        const gallery = card.querySelector('.expanded-gallery');
+        if (!gallery) return;
+
+        const track = gallery.querySelector('.gallery-track');
+        const images = track.querySelectorAll('.expanded-image');
+        const navContainer = gallery.querySelector('.gallery-nav');
+        const prevBtn = gallery.querySelector('.gallery-prev');
+        const nextBtn = gallery.querySelector('.gallery-next');
+
+        if (images.length <= 1) {
+            // Hide navigation if only one image
+            if (navContainer) navContainer.style.display = 'none';
+            const arrows = gallery.querySelector('.gallery-arrows');
+            if (arrows) arrows.style.display = 'none';
+            return;
+        }
+
+        let currentIndex = 0;
+
+        // Create dots
+        navContainer.innerHTML = '';
+        images.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = `gallery-dot ${i === 0 ? 'active' : ''}`;
+            dot.addEventListener('click', (e) => {
+                e.stopPropagation();
+                goToSlide(i);
+            });
+            navContainer.appendChild(dot);
+        });
+
+        const dots = navContainer.querySelectorAll('.gallery-dot');
+
+        function goToSlide(index) {
+            currentIndex = index;
+            track.style.transform = `translateX(-${index * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
+        // Arrow navigation
+        if (prevBtn) {
+            prevBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const newIndex = (currentIndex - 1 + images.length) % images.length;
+                goToSlide(newIndex);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const newIndex = (currentIndex + 1) % images.length;
+                goToSlide(newIndex);
+            });
+        }
+    }
+
+    closeExpanded() {
+        const expanded = document.querySelector('.project-card.expanded');
+        if (expanded) {
+            // Reset gallery position
+            const track = expanded.querySelector('.gallery-track');
+            if (track) track.style.transform = 'translateX(0)';
+
+            expanded.classList.remove('expanded');
+            this.section.classList.remove('has-expanded');
+            document.body.style.overflow = '';
+            this.startAutoPlay();
+        }
+    }
+
+    startAutoPlay() {
+        // Clear any existing interval
+        this.pauseAutoPlay();
+
+        // Only start if no card is expanded
+        if (this.section && !this.section.classList.contains('has-expanded')) {
+            this.autoPlayInterval = setInterval(() => {
+                this.rotate('next');
+            }, this.autoPlayDelay);
+        }
+    }
+
+    pauseAutoPlay() {
+        if (this.autoPlayInterval) {
+            clearInterval(this.autoPlayInterval);
+            this.autoPlayInterval = null;
+        }
+    }
+
+    resetAutoPlay() {
+        this.pauseAutoPlay();
+        this.startAutoPlay();
+    }
+}
+
+/* =============================================
+   PACKAGES SECTION
+   Expand/Collapse functionality
+   ============================================= */
+
+class PackagesSection {
+    constructor() {
+        this.section = document.querySelector('.packages-section');
+        this.cards = document.querySelectorAll('.package-card');
+        this.expandBtns = document.querySelectorAll('.expand-btn');
+
+        if (this.section && this.cards.length > 0) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.setupExpandButtons();
+        this.setupScrollAnimation();
+
+        console.log('Packages Section initialized successfully!');
+    }
+
+    setupExpandButtons() {
+        this.expandBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const card = btn.closest('.package-card');
+                const isExpanded = card.classList.contains('expanded');
+                const expandText = btn.querySelector('.expand-text');
+
+                // Toggle expanded state
+                if (isExpanded) {
+                    card.classList.remove('expanded');
+                    if (expandText) expandText.textContent = 'View Details';
+                } else {
+                    card.classList.add('expanded');
+                    if (expandText) expandText.textContent = 'Hide Details';
+                }
+            });
+        });
+    }
+
+    setupScrollAnimation() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        // Observer for section header
+        const headerObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        const sectionHeader = this.section.querySelector('.section-header');
+        if (sectionHeader) {
+            headerObserver.observe(sectionHeader);
+        }
+
+        // Observer for individual cards with stagger effect
+        const cardObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    // Add staggered animation delay
+                    setTimeout(() => {
+                        entry.target.classList.add('animate-in');
+                    }, index * 100);
+                }
+            });
+        }, { ...observerOptions, threshold: 0.2 });
+
+        this.cards.forEach(card => {
+            cardObserver.observe(card);
+        });
+    }
+}
+
 // ================== INITIALIZE FOOTER ==================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1190,6 +1652,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize Construction-Themed Animations
     const blueprintAnimation = new BlueprintAnimation();
+
+    // Initialize Projects Carousel
+    const projectsCarousel = new ProjectsCarousel();
+
+    // Initialize Packages Section
+    const packagesSection = new PackagesSection();
 
     console.log('Footer initialized successfully!');
     console.log('Construction-themed animations initialized!');
