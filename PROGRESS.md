@@ -19,8 +19,8 @@ Single-page scrollable website for a construction company with smooth animations
 | Phase | Section | Status |
 |-------|---------|--------|
 | 1 | Services Slider | COMPLETED |
-| 2 | Our Projects (Portfolio) | Pending |
-| 3 | Packages Cards | Pending |
+| 2 | Our Projects (Portfolio) | COMPLETED |
+| 3 | Packages Cards | COMPLETED |
 | 4 | Partners Carousel | COMPLETED |
 | 5 | Footer + Contact | COMPLETED |
 | 6 | Floating Chatbot | COMPLETED |
@@ -587,6 +587,189 @@ Replaced external/local image sources with embedded SVG brand logos:
 
 | Date | Work Completed |
 |------|----------------|
+| April 26, 2026 | Projects Semicircle Carousel with Image Gallery, Packages Section with 4 tiers |
 | April 25, 2026 | Partners Carousel (6 brand logos with actual images), Floating Chatbot |
 | April 24, 2026 | Header/Navigation, Hero Section, Footer + Contact, Bug fixes |
 | April 20, 2026 | Services Slider with side peek images |
+
+---
+
+## Phase 2: Projects Section (Semicircle Carousel) - COMPLETED (April 26, 2026)
+
+### Features:
+- **Semicircle Layout**: 5 visible cards arranged in an upward arc (like bottom half of a Ferris wheel)
+- **7 Project Cards**: Customer testimonials with project details
+- **Auto-Rotation**: Rotates every 4 seconds
+- **Manual Navigation**: Arrow buttons and dot indicators
+- **Keyboard Navigation**: Left/Right arrow keys
+
+### Expanded Card View:
+- **Multi-Image Gallery**: 2-3 images per project with sliding animation
+- **Gallery Navigation**: Left/right arrows + dot indicators
+- **Customer Review**: Testimonial text with quote styling
+- **Project Details**: Type, square footage, completion year
+- **Close Button**: Fixed at top-right corner
+- **Centered Modal**: Card opens in center of viewport
+- **Click Outside to Close**: Closes when clicking outside card
+- **Escape Key**: Press Escape to close
+
+### Project Data:
+| # | Owner | Location | Type | Sq.ft | Year |
+|---|-------|----------|------|-------|------|
+| 1 | Mr. Ramesh Kumar | Hyderabad | 3 BHK Villa | 2400 | 2023 |
+| 2 | Mrs. Lakshmi Devi | Secunderabad | 2 BHK Apartment | 1200 | 2023 |
+| 3 | Mr. Venkat Reddy | Gachibowli | Independent House | 3200 | 2024 |
+| 4 | Dr. Priya Sharma | Kukatpally | 4 BHK Duplex | 4000 | 2024 |
+| 5 | Mr. Ahmed Khan | Kondapur | Commercial Space | 5000 | 2023 |
+| 6 | Mrs. Sunitha Rao | Madhapur | 3 BHK Villa | 2800 | 2024 |
+| 7 | Mr. Ravi Teja | HITEC City | Residential Complex | 8000 | 2024 |
+
+### CSS Classes:
+- `.projects-section` - Main section container
+- `.semicircle-track` - Carousel track for positioning
+- `.project-card` - Individual project cards
+- `.project-card[data-position="0-4"]` - Position-based transforms
+- `.project-card.expanded` - Expanded modal state
+- `.expanded-gallery` - Image gallery container (220px height)
+- `.gallery-track` - Sliding image track
+- `.gallery-arrow` - Navigation arrows (appear on hover)
+- `.gallery-dot` - Navigation dots
+- `.expanded-content` - Review content area
+- `.close-expanded` - Close button
+
+### JavaScript Class: ProjectsCarousel
+```javascript
+class ProjectsCarousel {
+    init()              // Initialize carousel
+    setupPositions()    // Set initial card positions
+    rotate(direction)   // Rotate carousel left/right
+    expandCard(card)    // Expand card to modal view
+    initGallery(card)   // Initialize image gallery for expanded card
+    closeExpanded()     // Close expanded card
+    startAutoPlay()     // Start auto-rotation
+    pauseAutoPlay()     // Pause auto-rotation
+}
+```
+
+### Responsive Behavior:
+| Breakpoint | Visible Cards | Card Size | Gallery Height |
+|------------|---------------|-----------|----------------|
+| Desktop (>992px) | 5 | 200px × 260px | 220px |
+| Tablet (≤992px) | 5 | 180px × 240px | 180px |
+| Mobile (≤768px) | 3 | 160px × 210px | 180px |
+| Small Mobile (≤480px) | 3 | 140px × 190px | 150px |
+
+---
+
+## Phase 3: Packages Section - COMPLETED (April 26, 2026)
+
+### Features:
+- **4 Package Tiers**: Standard, Pro, Premium, Ultra Premium
+- **Expandable Details**: Click + button to see full feature list
+- **Discount Badges**: "Popular" and "10% OFF" badges
+- **Interior Features**: Premium and Ultra Premium include interiors
+- **Responsive Grid**: 4 columns on desktop, stacks on mobile
+
+### Package Details:
+
+| Package | Price/sq.ft | Badge | Interiors |
+|---------|-------------|-------|-----------|
+| Standard | ₹1,699 | - | No |
+| Pro | ₹1,999 | Popular | No |
+| Premium | ₹2,399 | - | Yes (Basic) |
+| Ultra Premium | ₹2,899 | 10% OFF | Yes (Full) |
+
+### Standard Package Features:
+- Foundation & Structure
+- Basic Electrical & Plumbing
+- Standard Flooring
+- Basic Paint & Finish
+- Standard Doors & Windows
+
+### Pro Package Features:
+- Everything in Standard
+- Premium Structure Quality
+- Modular Electrical Points
+- Vitrified Tile Flooring
+- Premium Paint Brands
+- Branded Doors & Windows
+
+### Premium Package Features:
+- Everything in Pro
+- RCC Framed Structure
+- Concealed Wiring
+- Premium Tiles & Marble
+- Interior & Exterior Paint
+- UPVC/Aluminum Windows
+- **Interior Add-ons:**
+  - Modular Kitchen
+  - False Ceiling (Living & Dining)
+  - Wooden Wardrobes
+
+### Ultra Premium Package Features:
+- Everything in Premium
+- Earthquake Resistant Design
+- Smart Home Wiring Ready
+- Italian Marble Flooring
+- Texture & Designer Paints
+- Premium UPVC Windows
+- **Full Interior Package:**
+  - Premium Modular Kitchen
+  - False Ceiling (All Rooms)
+  - Designer Wardrobes
+  - TV Unit
+  - Crockery Unit
+
+### CSS Classes:
+- `.packages-section` - Main section container
+- `.packages-grid` - CSS Grid container
+- `.package-card` - Individual package cards
+- `.package-badge` - Popular/discount badges
+- `.package-price` - Pricing display
+- `.package-features` - Feature list
+- `.package-expand-btn` - Expand/collapse button
+- `.package-details` - Hidden expandable details
+- `.package-details.active` - Expanded state
+- `.interior-section` - Interior features section
+- `.interior-label` - Green/gold interior badge
+
+### JavaScript Class: PackagesSection
+```javascript
+class PackagesSection {
+    init()                  // Initialize package cards
+    setupExpandButtons()    // Handle expand/collapse functionality
+}
+```
+
+### Responsive Behavior:
+| Breakpoint | Grid Columns | Card Width |
+|------------|--------------|------------|
+| Desktop (>1200px) | 4 | ~280px |
+| Tablet (≤1200px) | 2 | ~45% |
+| Mobile (≤768px) | 1 | 100% |
+
+---
+
+## Git Commits
+
+| Hash | Date | Description |
+|------|------|-------------|
+| 015e78c | April 26, 2026 | Add Projects carousel with image gallery and Packages section |
+| 9b0bff9 | April 26, 2026 | Add stat counter animation for hero section |
+| 8ab7a7a | April 26, 2026 | Add Why Us, Process sections with Blueprint animation |
+| dea6890 | April 25, 2026 | Chatbot and brand partners addition |
+
+---
+
+## GitHub Pages Deployment
+
+**URL**: https://sudheevar.github.io/construction-website/
+
+**Deployment Notes**:
+- GitHub Pages typically deploys within 1-5 minutes
+- Hard refresh (Ctrl+Shift+R) may be needed to see changes
+- Check Actions tab for deployment status
+
+---
+
+*Last Updated: April 26, 2026*
