@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(copy \"C:\\\\Users\\\\KSUDHEEVARR\\\\Downloads\\\\JR_Logo-removebg-preview.png\" \"C:\\\\Users\\\\KSUDHEEVARR\\\\construction-website\\\\images\\\\jr-logo.png\")",
-      "Bash(dir /b \"C:\\\\Users\\\\KSUDHEEVARR\\\\construction-website\\\\images\\\\partners\")"
+      "Bash(dir /b \"C:\\\\Users\\\\KSUDHEEVARR\\\\construction-website\\\\images\\\\partners\")",
+      "WebFetch(domain:rccbengaluru.com)"
     ]
   }
 }

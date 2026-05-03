@@ -1557,7 +1557,6 @@ class PackagesSection {
     constructor() {
         this.section = document.querySelector('.packages-section');
         this.cards = document.querySelectorAll('.package-card');
-        this.expandBtns = document.querySelectorAll('.expand-btn');
 
         if (this.section && this.cards.length > 0) {
             this.init();
@@ -1565,27 +1564,17 @@ class PackagesSection {
     }
 
     init() {
-        this.setupExpandButtons();
+        this.setupAccordions();
         this.setupScrollAnimation();
-
-        console.log('Packages Section initialized successfully!');
     }
 
-    setupExpandButtons() {
-        this.expandBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const card = btn.closest('.package-card');
-                const isExpanded = card.classList.contains('expanded');
-                const expandText = btn.querySelector('.expand-text');
-
-                // Toggle expanded state
-                if (isExpanded) {
-                    card.classList.remove('expanded');
-                    if (expandText) expandText.textContent = 'View Details';
-                } else {
-                    card.classList.add('expanded');
-                    if (expandText) expandText.textContent = 'Hide Details';
-                }
+    setupAccordions() {
+        this.section.querySelectorAll('.pkg-cat-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const accordion = btn.closest('.pkg-accordion');
+                const isOpen = accordion.classList.contains('open');
+                accordion.classList.toggle('open');
+                btn.querySelector('.pkg-cat-icon').textContent = isOpen ? '+' : '×';
             });
         });
     }
