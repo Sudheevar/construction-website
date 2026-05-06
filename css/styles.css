@@ -1830,7 +1830,8 @@ a.partner-logo:hover {
 }
 
 .footer-form input,
-.footer-form textarea {
+.footer-form textarea,
+.footer-form select {
     width: 100%;
     padding: 14px 16px;
     background: rgba(255, 255, 255, 0.08);
@@ -1842,13 +1843,28 @@ a.partner-logo:hover {
     transition: all var(--transition-normal);
 }
 
+.footer-form select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.6)' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 38px;
+}
+
+.footer-form select option {
+    background: #1a1a2e;
+    color: var(--white);
+}
+
 .footer-form input::placeholder,
 .footer-form textarea::placeholder {
     color: rgba(255, 255, 255, 0.5);
 }
 
 .footer-form input:focus,
-.footer-form textarea:focus {
+.footer-form textarea:focus,
+.footer-form select:focus {
     outline: none;
     border-color: var(--secondary-color);
     background: rgba(255, 255, 255, 0.12);
@@ -1858,6 +1874,12 @@ a.partner-logo:hover {
 .footer-form textarea {
     resize: vertical;
     min-height: 100px;
+}
+
+.form-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
 }
 
 .form-error {
@@ -4101,22 +4123,22 @@ a.partner-logo:hover {
 }
 
 /* Popular Card Highlight */
-.package-card[data-package="premium-plus-interior"] {
+.package-card[data-package="value-interior"] {
     border-color: rgba(255, 255, 255, 0.15);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 
-.package-card[data-package="premium-plus-interior"]:hover {
+.package-card[data-package="value-interior"]:hover {
     border-color: rgba(255, 255, 255, 0.3);
 }
 
-/* Luxury Plus Card (Gold) */
-.package-card[data-package="luxury-plus"] {
+/* VIP Card (Gold) */
+.package-card[data-package="vip-interior"] {
     background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
     border-color: rgba(212, 175, 55, 0.2);
 }
 
-.package-card[data-package="luxury-plus"]:hover {
+.package-card[data-package="vip-interior"]:hover {
     border-color: rgba(212, 175, 55, 0.4);
     box-shadow: 0 30px 60px rgba(212, 175, 55, 0.1);
 }
@@ -4160,7 +4182,7 @@ a.partner-logo:hover {
     margin-bottom: 15px;
 }
 
-.package-card[data-package="ultra"] .package-tier {
+.package-card[data-package="vip-interior"] .package-tier {
     color: #d4af37;
 }
 
@@ -4401,16 +4423,16 @@ a.partner-logo:hover {
     color: var(--black);
 }
 
-.package-card[data-package="pro"] .package-btn {
+.package-card[data-package="value-interior"] .package-btn {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.package-card[data-package="ultra"] .package-btn {
+.package-card[data-package="vip-interior"] .package-btn {
     background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%);
     border-color: rgba(212, 175, 55, 0.3);
 }
 
-.package-card[data-package="ultra"] .package-btn:hover {
+.package-card[data-package="vip-interior"] .package-btn:hover {
     background: #d4af37;
     color: #000;
 }
@@ -4620,13 +4642,13 @@ a.partner-logo:hover {
     color: #d4af37;
 }
 
-/* Ultra card: tint open accordion icon gold */
-.package-card[data-package="ultra"] .pkg-accordion.open .pkg-cat-icon {
+/* VIP card: tint open accordion icon gold */
+.package-card[data-package="vip-interior"] .pkg-accordion.open .pkg-cat-icon {
     background: rgba(212, 175, 55, 0.2);
 }
 
-/* Pro card: slightly brighter open state */
-.package-card[data-package="pro"] .pkg-accordion.open .pkg-cat-icon {
+/* Value With Interior card: slightly brighter open state */
+.package-card[data-package="value-interior"] .pkg-accordion.open .pkg-cat-icon {
     background: rgba(255, 255, 255, 0.22);
 }
 

@@ -568,15 +568,20 @@ window.addEventListener('resize', debounce(() => {
 
 // ================== ENQUIRY FORM HANDLER ==================
 
+// Paste your Google Apps Script web app URL here after deploying
+const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
 class EnquiryForm {
     constructor() {
         this.form = document.getElementById('enquiryForm');
         this.formSuccess = document.getElementById('formSuccess');
+        this.formErrorMsg = document.getElementById('formErrorMsg');
 
         // Form fields
         this.nameInput = document.getElementById('formName');
         this.emailInput = document.getElementById('formEmail');
         this.phoneInput = document.getElementById('formPhone');
+        this.packageInput = document.getElementById('formPackage');
         this.messageInput = document.getElementById('formMessage');
 
         // Error elements
@@ -593,6 +598,25 @@ class EnquiryForm {
     init() {
         // Form submit handler
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+
+        // Auto-fill package from Get Quote button clicks
+        document.querySelectorAll('.package-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const card = btn.closest('.package-card');
+                if (!card || !this.packageInput) return;
+                const tier = card.querySelector('.package-tier')?.textContent?.trim();
+                const amount = card.querySelector('.amount')?.textContent?.trim();
+                if (tier && amount) {
+                    const optionValue = `${tier} – ₹${amount}/sqft`;
+                    for (const opt of this.packageInput.options) {
+                        if (opt.value === optionValue) {
+                            this.packageInput.value = optionValue;
+                            break;
+                        }
+                    }
+                }
+            });
+        });
 
         // Real-time validation on blur
         this.nameInput.addEventListener('blur', () => this.validateName());
@@ -688,37 +712,69 @@ class EnquiryForm {
     handleSubmit(e) {
         e.preventDefault();
 
-        // Validate all fields
         const isNameValid = this.validateName();
         const isEmailValid = this.validateEmail();
         const isPhoneValid = this.validatePhone();
         const isMessageValid = this.validateMessage();
 
-        if (isNameValid && isEmailValid && isPhoneValid && isMessageValid) {
-            // Form is valid - show success message
-            this.showSuccess();
+        if (!(isNameValid && isEmailValid && isPhoneValid && isMessageValid)) return;
+
+        const submitBtn = document.getElementById('formSubmitBtn');
+        const originalHTML = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span>Sending…</span>';
+        if (this.formErrorMsg) this.formErrorMsg.style.display = 'none';
+
+        const payload = JSON.stringify({
+            name:    this.nameInput.value.trim(),
+            email:   this.emailInput.value.trim(),
+            phone:   this.phoneInput.value.trim() || 'Not provided',
+            package: this.packageInput ? (this.packageInput.value || 'Not specified') : 'Not specified',
+            message: this.messageInput.value.trim(),
+            submittedAt: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+        });
+
+        const afterSend = (success) => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHTML;
+            if (success) {
+                this.showSuccess();
+            } else {
+                if (this.formErrorMsg) this.formErrorMsg.style.display = 'block';
+            }
+        };
+
+        if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+            afterSend(true);
+            return;
         }
+
+        fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: payload
+        })
+        .then(() => afterSend(true))
+        .catch(() => afterSend(false));
     }
 
     // Show success message and reset form
     showSuccess() {
-        // Hide form fields temporarily
         const formGroups = this.form.querySelectorAll('.form-group');
-        const submitBtn = this.form.querySelector('.form-submit');
+        const submitBtn = document.getElementById('formSubmitBtn');
 
         formGroups.forEach(group => group.style.display = 'none');
         submitBtn.style.display = 'none';
 
-        // Show success message
         this.formSuccess.classList.add('show');
 
-        // Reset form after 3 seconds
         setTimeout(() => {
             this.form.reset();
             formGroups.forEach(group => group.style.display = 'block');
             submitBtn.style.display = 'inline-flex';
             this.formSuccess.classList.remove('show');
-        }, 4000);
+        }, 5000);
     }
 }
 
