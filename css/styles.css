@@ -4077,11 +4077,18 @@ a.partner-logo:hover {
     z-index: 1;
 }
 
+.packages-carousel-wrapper {
+    margin-top: 60px;
+}
+
+.pkg-arrow { display: none; }
+
 .packages-grid {
     display: flex;
     overflow-x: auto;
+    overflow-y: clip;
+    overflow-clip-margin: 30px;
     gap: 25px;
-    margin-top: 60px;
     padding-bottom: 20px;
     scrollbar-width: thin;
     scrollbar-color: rgba(255,255,255,0.2) transparent;
@@ -4112,7 +4119,7 @@ a.partner-logo:hover {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     flex-direction: column;
-    min-width: 260px;
+    min-width: 320px;
     flex-shrink: 0;
 }
 
