@@ -4129,27 +4129,6 @@ a.partner-logo:hover {
     box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Popular Card Highlight */
-.package-card[data-package="value-interior"] {
-    border-color: rgba(255, 255, 255, 0.15);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%);
-}
-
-.package-card[data-package="value-interior"]:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* VIP Card (Gold) */
-.package-card[data-package="vip-interior"] {
-    background: linear-gradient(180deg, rgba(212, 175, 55, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
-    border-color: rgba(212, 175, 55, 0.2);
-}
-
-.package-card[data-package="vip-interior"]:hover {
-    border-color: rgba(212, 175, 55, 0.4);
-    box-shadow: 0 30px 60px rgba(212, 175, 55, 0.1);
-}
-
 /* Discount Badge */
 .discount-badge {
     position: absolute;
@@ -4189,10 +4168,6 @@ a.partner-logo:hover {
     margin-bottom: 15px;
 }
 
-.package-card[data-package="vip-interior"] .package-tier {
-    color: #d4af37;
-}
-
 .package-price {
     display: flex;
     align-items: baseline;
@@ -4227,6 +4202,16 @@ a.partner-logo:hover {
     text-decoration: line-through;
     width: 100%;
     margin-bottom: 5px;
+}
+
+.package-price .price-prefix {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.55);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    width: 100%;
+    margin-bottom: 4px;
 }
 
 .package-tagline {
@@ -4430,20 +4415,6 @@ a.partner-logo:hover {
     color: var(--black);
 }
 
-.package-card[data-package="value-interior"] .package-btn {
-    background: rgba(255, 255, 255, 0.15);
-}
-
-.package-card[data-package="vip-interior"] .package-btn {
-    background: linear-gradient(135deg, rgba(212, 175, 55, 0.3) 0%, rgba(212, 175, 55, 0.1) 100%);
-    border-color: rgba(212, 175, 55, 0.3);
-}
-
-.package-card[data-package="vip-interior"] .package-btn:hover {
-    background: #d4af37;
-    color: #000;
-}
-
 /* Packages Note */
 .packages-note {
     text-align: center;
@@ -4615,7 +4586,7 @@ a.partner-logo:hover {
 }
 
 .pkg-accordion.open .pkg-cat-body {
-    max-height: 220px;
+    max-height: 360px;
 }
 
 .pkg-cat-body p {
@@ -4647,16 +4618,6 @@ a.partner-logo:hover {
 .interior-badge.gold {
     background: rgba(212, 175, 55, 0.15);
     color: #d4af37;
-}
-
-/* VIP card: tint open accordion icon gold */
-.package-card[data-package="vip-interior"] .pkg-accordion.open .pkg-cat-icon {
-    background: rgba(212, 175, 55, 0.2);
-}
-
-/* Value With Interior card: slightly brighter open state */
-.package-card[data-package="value-interior"] .pkg-accordion.open .pkg-cat-icon {
-    background: rgba(255, 255, 255, 0.22);
 }
 
 @media (max-width: 768px) {
