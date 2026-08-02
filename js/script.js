@@ -569,7 +569,7 @@ window.addEventListener('resize', debounce(() => {
 // ================== ENQUIRY FORM HANDLER ==================
 
 // Paste your Google Apps Script web app URL here after deploying
-const APPS_SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWdfCmSV0Au7sDErX8xEDnV5WsxM2euYZH8kCi3Fe0Uii53YzY-m_v9459Aje8qVU4/exec';
 
 class EnquiryForm {
     constructor() {
@@ -1042,7 +1042,7 @@ class Chatbot {
         }
 
         if (lowerMessage.includes('contact') || lowerMessage.includes('phone') || lowerMessage.includes('call')) {
-            return "You can reach us at:<br><strong>Phone:</strong> +91 99490 86276<br><strong>Email:</strong> sohamendeavours202@gmail.com<br><strong>Hours:</strong> Mon-Sat, 9 AM - 7 PM<br>Or fill out the enquiry form below!";
+            return "You can reach us at:<br><strong>Phone:</strong> +91 99490 86276<br><strong>Email:</strong> officialjrconstructions@gmail.com<br><strong>Hours:</strong> Mon-Sat, 9 AM - 7 PM<br>Or fill out the enquiry form below!";
         }
 
         if (lowerMessage.includes('location') || lowerMessage.includes('address') || lowerMessage.includes('where')) {
